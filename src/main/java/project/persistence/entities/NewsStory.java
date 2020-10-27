@@ -17,16 +17,18 @@ public class NewsStory {
     private String site;
     private String timePosted; //String tímabundið. Ætti að vera Date object
     private String link;
+    /*
     @ElementCollection(targetClass=Categories.class)
     @Column(name="categories", nullable=false)
     @CollectionTable(name="newsStory_categories", joinColumns= {@JoinColumn(name="newsStory_id")})
-    private List<Categories> categories;
+     */
+    private Categories categories;
 
     public NewsStory(){
 
     }
 
-    public NewsStory(String title, String site, String timePosted, String link, List<Categories> categories){
+    public NewsStory(String title, String site, String timePosted, String link, Categories categories){
         this.title = title;
         this.site = site;
         this.timePosted = timePosted;
@@ -74,11 +76,11 @@ public class NewsStory {
         this.link = link;
     }
 
-    public List<Categories> getCategories() {
+    public Categories getCategories() {
         return categories;
     }
 
-    public void setCategories(List<Categories> categories) {
+    public void setCategories(Categories categories) {
         this.categories = categories;
     }
 }

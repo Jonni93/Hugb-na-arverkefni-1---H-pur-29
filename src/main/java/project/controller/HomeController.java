@@ -41,7 +41,6 @@ public class HomeController {
     public String home(Model model){
 
 
-
         List<NewsStory> newsStories  = collectorService.findStories();
         newsStoryService.save(newsStories);
         model.addAttribute("newsStories", newsStoryService.findAll() );
@@ -68,7 +67,6 @@ public class HomeController {
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String signUpPOST(@Valid User user, BindingResult result, Model model){
-        System.out.println("efst    " + user.getuName());
         if(result.hasErrors()){
             return "signup";
         }
@@ -82,14 +80,14 @@ public class HomeController {
 
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public String usersGET(Model model){
-        /*
+
         List<User> ble = userService.findAll();
         for(User u: ble){
             System.out.println("users for loopa");
             System.out.println(u.getuName());
             System.out.println(u.getPassword());
         }
-        */
+
 
         model.addAttribute("users", userService.findAll());
         return "users";
@@ -130,15 +128,19 @@ public class HomeController {
     @RequestMapping("/makedata")
     public String makeData(Model model){
         List<Categories> categories = new ArrayList<>();
-        categories.add(Categories.ERLENT);
+        //categories.add(Categories.ERLENT);
         categories.add(Categories.SPORT);
         categories.add(Categories.INNLENT);
         for (int i = 0; i < 3; i++) {
-            this.newsStoryService.save(new NewsStory("Erlend sportfrétt", "Visir", "kl ble", "httpble", categories ));
+            this.newsStoryService.save(new NewsStory("Innlend frétt", "Visir", "kl ble", "httpble", Categories.INNLENT ));
         }
-        List<Categories> categories2 = new ArrayList<>();
-        categories2.add(Categories.INNLENT);
-        this.newsStoryService.save(new NewsStory("Erlend frétt", "Visir", "kl ble", "httpble", categories2 ));
+        for (int i = 0; i < 3; i++) {
+            this.newsStoryService.save(new NewsStory("Erlend frétt", "Visir", "kl ble", "httpble", Categories.ERLENT ));
+        }
+        for (int i = 0; i < 3; i++) {
+            this.newsStoryService.save(new NewsStory("sportfrétt", "Visir", "kl ble", "httpble", Categories.SPORT ));
+        }
+
         //SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         User tempUser = new User("Karl Jóhann","pass123");
         tempUser.setCategories(categories);

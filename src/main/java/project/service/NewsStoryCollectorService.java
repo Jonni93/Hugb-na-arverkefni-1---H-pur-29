@@ -46,7 +46,8 @@ public class NewsStoryCollectorService {
                 String site = "Vísir";
                 String timePosted = e.select("time.article-item__time").text();
                 String link ="visir.is" + e.select(".article-item__title").select("a[href]").attr("href");
-                newsStoryList.add(new NewsStory(title, site, timePosted, link, null));
+                Categories category = Categories.valueOf(e.select("article-item__meta").text());
+                newsStoryList.add(new NewsStory(title, site, timePosted, link, category));
 
 
                 System.out.println(e.select(".article-item__title").text());
