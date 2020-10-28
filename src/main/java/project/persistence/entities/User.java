@@ -16,7 +16,7 @@ public class User {
     @ElementCollection(targetClass=Categories.class)
     @Column(name="categories", nullable=false)
     @CollectionTable(name="user_categories", joinColumns= {@JoinColumn(name="user_id")})
-    private List<Categories> categories = new ArrayList<>();
+    private List<String> categories = new ArrayList<>();
 
     public User(){
 
@@ -59,11 +59,11 @@ public class User {
         this.email = email;
     }
 
-    public List<Categories> getCategories() {
+    public List<String> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<Categories> categories) {
+    public void setCategories(List<String> categories) {
         this.categories = categories;
     }
 }

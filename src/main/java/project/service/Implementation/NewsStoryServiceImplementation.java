@@ -8,6 +8,7 @@ import project.persistence.repositories.NewsStoryRepository;
 import project.service.NewsStoryService;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -45,8 +46,10 @@ public class NewsStoryServiceImplementation implements NewsStoryService {
 
     @Override
     public List<NewsStory> findAllChronological() {
-       //Þarf að útfæra
-        return null;
+        List<NewsStory> list = repository.findAll();
+        Collections.sort(list, Comparator.comparingLong(NewsStory ::getTimePosted));
+        Collections.reverse(list);
+        return list;
     }
 
     @Override
@@ -60,7 +63,7 @@ public class NewsStoryServiceImplementation implements NewsStoryService {
     }
 
     @Override
-    public List<NewsStory> findByCategoriesIn(List<Categories> categories) {
+    public List<NewsStory> findByCategoriesIn(List<String> categories) {
         return repository.findByCategoriesIn(categories);
     }
 }

@@ -15,20 +15,20 @@ public class NewsStory {
     private Long id;
     private String title;
     private String site;
-    private String timePosted; //String tímabundið. Ætti að vera Date object
+    private Long timePosted; //currentMillis
     private String link;
     /*
     @ElementCollection(targetClass=Categories.class)
     @Column(name="categories", nullable=false)
     @CollectionTable(name="newsStory_categories", joinColumns= {@JoinColumn(name="newsStory_id")})
      */
-    private Categories categories;
+    private String categories;
 
     public NewsStory(){
 
     }
 
-    public NewsStory(String title, String site, String timePosted, String link, Categories categories){
+    public NewsStory(String title, String site, Long timePosted, String link, String categories){
         this.title = title;
         this.site = site;
         this.timePosted = timePosted;
@@ -60,11 +60,11 @@ public class NewsStory {
         this.site = site;
     }
 
-    public String getTimePosted() {
+    public Long getTimePosted() {
         return timePosted;
     }
 
-    public void setTimePosted(String timePosted) {
+    public void setTimePosted(Long timePosted) {
         this.timePosted = timePosted;
     }
 
@@ -76,11 +76,11 @@ public class NewsStory {
         this.link = link;
     }
 
-    public Categories getCategories() {
+    public String getCategories() {
         return categories;
     }
 
-    public void setCategories(Categories categories) {
+    public void setCategories(String categories) {
         this.categories = categories;
     }
 }

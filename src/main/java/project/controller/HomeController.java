@@ -43,7 +43,7 @@ public class HomeController {
 
         List<NewsStory> newsStories  = collectorService.findStories();
         newsStoryService.save(newsStories);
-        model.addAttribute("newsStories", newsStoryService.findAll() );
+        model.addAttribute("newsStories", newsStoryService.findAllChronological() );
 
 
         return "Index";
@@ -127,10 +127,12 @@ public class HomeController {
      */
     @RequestMapping("/makedata")
     public String makeData(Model model){
+
+        /*
         List<Categories> categories = new ArrayList<>();
-        //categories.add(Categories.ERLENT);
-        categories.add(Categories.SPORT);
-        categories.add(Categories.INNLENT);
+        //categories.add("Erlent");
+        categories.add("Sport");
+        categories.add("Innlent");
         for (int i = 0; i < 3; i++) {
             this.newsStoryService.save(new NewsStory("Innlend frétt", "Visir", "kl ble", "httpble", Categories.INNLENT ));
         }
@@ -151,9 +153,10 @@ public class HomeController {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-         */
+
         List<NewsStory> newsStories = newsStoryService.findByCategoriesIn(tempUser.getCategories());
         model.addAttribute("newsStories", newsStories );
+        return "Index";*/
         return "Index";
     }
 }

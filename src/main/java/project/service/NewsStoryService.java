@@ -26,6 +26,6 @@ public interface NewsStoryService {
 
     List<NewsStory> findByTitle(String title);
 
-    List<NewsStory> findByCategoriesIn(List<Categories> newsCategories);
+    List<NewsStory> findByCategoriesIn(List<String> newsCategories);
 
 }
