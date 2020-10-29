@@ -38,11 +38,21 @@ public class HomeController {
     // is running and you enter "localhost:8080" into a browser, this
     // method is called
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String home(Model model){
+    public String home(Model model, HttpSession session){
 
 
         List<NewsStory> newsStories  = collectorService.findStories();
         newsStoryService.save(newsStories);
+
+        User sessionUser = (User) session.getAttribute("LoggedInUser");
+        //Ef notandi er skráður inn þá á að birta filteraðan fréttalist
+        if(sessionUser  != null){
+            model.addAttribute("newsStories", newsStoryService.findByCategoriesIn(sessionUser.getCategories()));
+            return "Index";
+        }
+
+
+        //Notandi er ekki skráður inn. Birta allar fréttir
         model.addAttribute("newsStories", newsStoryService.findAllChronological() );
 
 
@@ -60,71 +70,7 @@ public class HomeController {
         return "viewNewsData";
     }
 
-    @RequestMapping(value = "/signup", method = RequestMethod.GET)
-    public String signUpGET(User user){
-        return "signup";
-    }
-
-    @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public String signUpPOST(@Valid User user, BindingResult result, Model model){
-        if(result.hasErrors()){
-            return "signup";
-        }
-        User exists = userService.findByUName(user.getuName());
-        if(exists == null){
-            userService.save(user);
-        }
-        model.addAttribute("newsStories", newsStoryService.findAll());
-        return "Index";
-    }
-
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public String usersGET(Model model){
-
-        List<User> ble = userService.findAll();
-        for(User u: ble){
-            System.out.println("users for loopa");
-            System.out.println(u.getuName());
-            System.out.println(u.getPassword());
-        }
-
-
-        model.addAttribute("users", userService.findAll());
-        return "users";
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginGET(User user){
-        return "login";
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String loginPOST(@Valid User user, BindingResult result, Model model, HttpSession session){
-        if(result.hasErrors()){
-            return "login";
-        }
-        model.addAttribute("newsStories",newsStoryService.findAll());
-        User exists = userService.login(user);
-        if(exists != null){
-            session.setAttribute("LoggedInUser", user);
-            return "redirect:/";
-        }
-        return "redirect:/";
-    }
-
-    @RequestMapping(value = "/loggedin", method = RequestMethod.GET)
-    public String loggedinGET(HttpSession session, Model model){
-        model.addAttribute("newsStories",newsStoryService.findAll());
-        User sessionUser = (User) session.getAttribute("LoggedInUser");
-        if(sessionUser  != null){
-            model.addAttribute("loggedinuser", sessionUser);
-            return "loggedInUser";
-        }
-        return "redirect:/";
-    }
-    /*
-    Develpoment fall. EYÐIST
-     */
+    //Develpoment fall. EYÐIST
     @RequestMapping("/makedata")
     public String makeData(Model model){
 

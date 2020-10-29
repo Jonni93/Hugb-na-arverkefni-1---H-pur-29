@@ -40,6 +40,7 @@
                         <%--The String in the note attribute--%>
                         <td>${newsStory.timePosted}</td>
                         <td>${newsStory.id}</td>
+                        <td>${newsStory.categories}</td>
                     </tr>
                 </c:forEach>
             </table>
