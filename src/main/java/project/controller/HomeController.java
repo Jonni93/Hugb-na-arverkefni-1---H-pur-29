@@ -22,39 +22,27 @@ import java.util.List;
 @Controller
 public class HomeController {
 
-    NewsStoryCollectorService collectorService;
     NewsStoryServiceImplementation newsStoryService;
     UserServiceImplementation userService;
 
     @Autowired
-    public HomeController(NewsStoryCollectorService collectorService,NewsStoryServiceImplementation newsStoryService,UserServiceImplementation userService) {
-        this.collectorService = collectorService;
+    public HomeController(NewsStoryServiceImplementation newsStoryService,UserServiceImplementation userService) {
         this.newsStoryService = newsStoryService;
         this.userService = userService;
     }
 
-    // Request mapping is the path that you want to map this method to
-    // In this case, the mapping is the root "/", so when the project
-    // is running and you enter "localhost:8080" into a browser, this
-    // method is called
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(Model model, HttpSession session){
-
-
-        List<NewsStory> newsStories  = collectorService.findStories();
-        newsStoryService.save(newsStories);
-
         User sessionUser = (User) session.getAttribute("LoggedInUser");
-        //Ef notandi er skráður inn þá á að birta filteraðan fréttalist
+
+        //Ef notandi er skráður inn þá á að birta filteraðan fréttalista
         if(sessionUser  != null){
             model.addAttribute("newsStories", newsStoryService.findByCategoriesIn(sessionUser.getCategories()));
             return "Index";
         }
 
-
         //Notandi er ekki skráður inn. Birta allar fréttir
         model.addAttribute("newsStories", newsStoryService.findAllChronological() );
-
 
         return "Index";
     }

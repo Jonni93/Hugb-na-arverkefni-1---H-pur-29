@@ -1,17 +1,22 @@
 package project.service.Implementation;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import project.persistence.entities.Categories;
 import project.persistence.entities.NewsStory;
 import project.persistence.repositories.NewsStoryRepository;
+import project.service.NewsStoryCollectorService;
 import project.service.NewsStoryService;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 @Service
+@EnableScheduling
 public class NewsStoryServiceImplementation implements NewsStoryService {
 
     NewsStoryRepository repository;
@@ -65,5 +70,13 @@ public class NewsStoryServiceImplementation implements NewsStoryService {
     @Override
     public List<NewsStory> findByCategoriesIn(List<String> categories) {
         return repository.findByCategoriesIn(categories);
+    }
+    //Uppfærir gagnagrunn á 10 min fresti
+    @Scheduled(fixedRate = 600000)
+        private void upDateDB(){
+        NewsStoryCollectorService collector = new NewsStoryCollectorService();
+        List<NewsStory> stories = collector.findStories();
+        save(stories);
+        System.out.println("DB updated");
     }
 }
