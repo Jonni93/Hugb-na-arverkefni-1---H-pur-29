@@ -13,7 +13,7 @@ public class User {
     private String password;
     private String email;
 
-    @ElementCollection(targetClass=Categories.class)
+    @ElementCollection(targetClass=String.class)
     @Column(name="categories", nullable=false)
     @CollectionTable(name="user_categories", joinColumns= {@JoinColumn(name="user_id")})
     private List<String> categories = new ArrayList<>();

@@ -47,7 +47,7 @@ public class UserServiceImplementation implements UserService {
         User exists = findByUName(user.getuName());
         if(exists != null){
             if(exists.getPassword().equals(user.getPassword())){
-                return user;
+                return exists;
             }
         }
         return null;

@@ -5,7 +5,7 @@
     <title>Logged In User</title>
 </head>
 <body>
-<p th:text="${loggedinuser.uName}"></p>
+<p th:text="${loggedinUser.uName}"></p>
 
 </body>
 </html>

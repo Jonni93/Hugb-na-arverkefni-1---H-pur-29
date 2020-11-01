@@ -13,29 +13,21 @@
     </head>
     <body>
 
-    <h1><a href="/">Users</a></h1>
-    <c:choose>
-        <c:when test="${not empty users}">
+    <h1><a href="/">new user made</a></h1>
             <table class="regestiredUsers">
 
                 <thead>
                 <tr>
                     <th>User Name</th>
                     <th>Password</th>
+                    <th>Categories</th>
                 </tr>
                 </thead>
-                <c:forEach var="user" items="${users}">
                     <tr>
                         <td>${user.uName}</td>
                         <td>${user.password}</td>
+                        <td>${user.categories}</td>
                     </tr>
-                </c:forEach>
             </table>
-        </c:when>
-        <c:otherwise>
-            <h3>No users</h3>
-        </c:otherwise>
-    </c:choose>
-
     </body>
 </html>

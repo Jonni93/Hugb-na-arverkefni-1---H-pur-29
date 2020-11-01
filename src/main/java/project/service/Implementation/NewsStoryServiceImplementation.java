@@ -67,10 +67,15 @@ public class NewsStoryServiceImplementation implements NewsStoryService {
         return repository.findByTitle(title);
     }
 
+    //Tekur inn lista af categories. Skilar lista af NewsStory hlutum sem tilheyra þessum categories(í tímaröð)
     @Override
     public List<NewsStory> findByCategoriesIn(List<String> categories) {
-        return repository.findByCategoriesIn(categories);
+        List<NewsStory> list = repository.findByCategoriesIn(categories);
+        Collections.sort(list, Comparator.comparingLong(NewsStory ::getTimePosted));
+        Collections.reverse(list);
+        return list;
     }
+
     //Uppfærir gagnagrunn á 10 min fresti
     @Scheduled(fixedRate = 600000)
         private void upDateDB(){

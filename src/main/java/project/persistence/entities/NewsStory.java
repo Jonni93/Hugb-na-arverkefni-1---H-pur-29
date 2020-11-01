@@ -17,11 +17,6 @@ public class NewsStory {
     private String site;
     private Long timePosted; //currentMillis
     private String link;
-    /*
-    @ElementCollection(targetClass=Categories.class)
-    @Column(name="categories", nullable=false)
-    @CollectionTable(name="newsStory_categories", joinColumns= {@JoinColumn(name="newsStory_id")})
-     */
     private String categories;
 
     public NewsStory(){

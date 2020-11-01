@@ -37,7 +37,6 @@ public class UserController {
         if(exists == null){
             userService.save(user);
         }
-        //model.addAttribute("newsStories", newsStoryService.findAll());
         return "redirect:/";
     }
 
@@ -54,13 +53,12 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String loginPOST(@Valid User user, BindingResult result, Model model, HttpSession session){
-        if(result.hasErrors()){
+        if(result.hasErrors()) {
             return "login";
         }
-        //model.addAttribute("newsStories",newsStoryService.findAll());
         User exists = userService.login(user);
         if(exists != null){
-            session.setAttribute("LoggedInUser", user);
+            session.setAttribute("LoggedInUser", exists);
             return "redirect:/";
         }
         //Hér þarf að returna síðu sem segir að notandanafn sé ekki til
@@ -69,7 +67,6 @@ public class UserController {
 
     @RequestMapping(value = "/loggedin", method = RequestMethod.GET)
     public String loggedinGET(HttpSession session, Model model){
-        //model.addAttribute("newsStories",newsStoryService.findAll());
         User sessionUser = (User) session.getAttribute("LoggedInUser");
         if(sessionUser  != null){
             model.addAttribute("loggedinuser", sessionUser);
@@ -78,19 +75,20 @@ public class UserController {
         return "redirect:/";
     }
 
-    //Fall til að testa EYÐIST
-    @RequestMapping(value = "/filter", method = RequestMethod.GET)
-    public String filter(HttpSession session,User user){
-        User sessionUser = (User) session.getAttribute("LoggedInUser");
-        if(sessionUser  != null){
-            List<String> categories = new ArrayList<>();
-            categories.add("Íþróttir");
-            sessionUser.setCategories(categories);
-            return "redirect:/";
-        }
-        return "redirect:/";
+    /*
+    Testfall. EKKI PARTUR AF LOKAFORRITI.
+    Hér er hægt að búa til notanda með stillt categories
+     */
+    @RequestMapping(value = "/makeUser", method = RequestMethod.GET)
+    public String makeUser(Model model){
+        User newUser = new User("user", "password");
+        List<String> categories = new ArrayList<>();
+        categories.add("Íþróttir");
+        categories.add("Viðskipti");
+        newUser.setCategories(categories);
+        userService.save(newUser);
+        model.addAttribute("user", newUser);
+
+        return "makeUser";
     }
-
-
-
 }
