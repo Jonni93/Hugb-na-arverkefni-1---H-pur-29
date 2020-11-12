@@ -69,7 +69,7 @@ public class NewsStoryServiceImplementation implements NewsStoryService {
 
     //Tekur inn lista af categories. Skilar lista af NewsStory hlutum sem tilheyra þessum categories(í tímaröð)
     @Override
-    public List<NewsStory> findByCategoriesIn(List<String> categories) {
+    public List<NewsStory> findByCategoriesIn(List<Categories> categories) {
         List<NewsStory> list = repository.findByCategoriesIn(categories);
         Collections.sort(list, Comparator.comparingLong(NewsStory ::getTimePosted));
         Collections.reverse(list);

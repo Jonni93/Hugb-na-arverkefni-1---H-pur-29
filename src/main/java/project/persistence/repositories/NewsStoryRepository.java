@@ -26,5 +26,5 @@ public interface NewsStoryRepository extends JpaRepository<NewsStory, Long> {
 
     List<NewsStory> findByTitle(String title);
 
-    List<NewsStory> findByCategoriesIn(List<String> categories);
+    List<NewsStory> findByCategoriesIn(List<Categories> categories);
 }

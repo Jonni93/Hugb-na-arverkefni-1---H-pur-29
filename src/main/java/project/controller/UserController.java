@@ -11,8 +11,6 @@ import project.service.Implementation.UserServiceImplementation;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class UserController {
@@ -24,12 +22,12 @@ public class UserController {
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
-    public String signUpGET(User user){
+    public String signUpGET(){
         return "signup";
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
-    public String signUpPOST(@Valid User user, BindingResult result, Model model){
+    public String signUpPOST(@Valid User user, BindingResult result){
         if(result.hasErrors()){
             return "signup";
         }
@@ -52,7 +50,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String loginPOST(@Valid User user, BindingResult result, Model model, HttpSession session){
+    public String loginPOST(@Valid User user, BindingResult result, HttpSession session){
         if(result.hasErrors()) {
             return "login";
         }
@@ -61,7 +59,6 @@ public class UserController {
             session.setAttribute("LoggedInUser", exists);
             return "redirect:/";
         }
-        //Hér þarf að returna síðu sem segir að notandanafn sé ekki til
         return "redirect:/";
     }
 
@@ -69,26 +66,20 @@ public class UserController {
     public String loggedinGET(HttpSession session, Model model){
         User sessionUser = (User) session.getAttribute("LoggedInUser");
         if(sessionUser  != null){
-            model.addAttribute("loggedinuser", sessionUser);
+            model.addAttribute("loggedinUser", sessionUser);
             return "loggedInUser";
         }
         return "redirect:/";
     }
 
-    /*
-    Testfall. EKKI PARTUR AF LOKAFORRITI.
-    Hér er hægt að búa til notanda með stillt categories
-     */
-    @RequestMapping(value = "/makeUser", method = RequestMethod.GET)
-    public String makeUser(Model model){
-        User newUser = new User("user", "password");
-        List<String> categories = new ArrayList<>();
-        categories.add("Íþróttir");
-        categories.add("Viðskipti");
-        newUser.setCategories(categories);
-        userService.save(newUser);
-        model.addAttribute("user", newUser);
+    //Þegar búið er að velja checkbox og ýta á submit er kallað á þetta fall
+    @RequestMapping(value = "/", method = RequestMethod.POST)
+    public String home(@Valid User user, BindingResult result, Model model,HttpSession session){
+        User sessionUser = (User)session.getAttribute("LoggedInUser");
+        sessionUser.setCategories(user.getCategories());
+        userService.save(sessionUser);
 
-        return "makeUser";
+        return "redirect:/";
     }
+
 }

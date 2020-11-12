@@ -3,21 +3,13 @@ package project.service;
 
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
-import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
-import java.io.InputStreamReader;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.persistence.entities.Categories;
 import project.persistence.entities.NewsStory;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,48 +36,6 @@ public class NewsStoryCollectorService {
     }
 
     private void collectFromVisir(){
-        //Var búinn að skipta úr Jsoup yfir í ROME. Geymi þetta hér til ef ske kynni að þetta kæmi að gagni.
-        /*
-        catch (MalformedURLException ue){
-        System.out.println("Malformed URL");
-        }
-        catch (IOException ioe){
-        System.out.println("Something went wrong reading the contents");
-        } catch (FeedException e) {
-            e.printStackTrace();
-        }
-        */
-        /*
-
-        String url = "https://www.visir.is/f/frettir";
-
-        try{
-            Document document = Jsoup.connect(url).get();
-
-            for(Element e : document.select("section.segment").select("article") ){
-                String title = e.select(".article-item__title").text();
-                String site = "Vísir";
-                String timePosted = e.select("time.article-item__time").text();
-                String link ="visir.is" + e.select(".article-item__title").select("a[href]").attr("href");
-                Categories category = Categories.valueOf(e.select("article-item__meta").text());
-                newsStoryList.add(new NewsStory(title, site, timePosted, link, category));
-
-
-                System.out.println(e.select(".article-item__title").text());
-                System.out.println(e.select(".article-item__title").select("a[href]").attr("href"));
-                System.out.println(e.select("div.article-item__meta").select("a").text());
-                System.out.println(e.select("time.article-item__time").text());
-                System.out.println();
-
-            }
-
-
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-         */
 
     }
 
@@ -99,7 +49,7 @@ public class NewsStoryCollectorService {
                 String title = entry.getTitle();
                 String link = entry.getLink();
                 Long pubDate = entry.getPublishedDate().getTime();
-                newsStoryList.add(new NewsStory(title,"Mbl.is",pubDate,link,"Innlent"));
+                newsStoryList.add(new NewsStory(title,"Mbl.is",pubDate,link,Categories.INNLENT));
             }
         }
         catch (Exception ex) {
@@ -117,7 +67,7 @@ public class NewsStoryCollectorService {
                 String link = entry.getLink();
                 Long pubDate = entry.getPublishedDate().getTime();
 
-                newsStoryList.add(new NewsStory(title,"Mbl.is",pubDate,link,"Erlent"));
+                newsStoryList.add(new NewsStory(title,"Mbl.is",pubDate,link,Categories.ERLENT));
             }
         }
         catch (Exception ex) {
@@ -135,7 +85,7 @@ public class NewsStoryCollectorService {
                 String link = entry.getLink();
                 Long pubDate = entry.getPublishedDate().getTime();
 
-                newsStoryList.add(new NewsStory(title,"Mbl.is",pubDate,link,"Íþróttir"));
+                newsStoryList.add(new NewsStory(title,"Mbl.is",pubDate,link,Categories.SPORT));
             }
         }
         catch (Exception ex) {
@@ -153,13 +103,142 @@ public class NewsStoryCollectorService {
                 String link = entry.getLink();
                 Long pubDate = entry.getPublishedDate().getTime();
 
-                newsStoryList.add(new NewsStory(title,"Mbl.is",pubDate,link,"Viðskipti"));
+                newsStoryList.add(new NewsStory(title,"Mbl.is",pubDate,link,Categories.VIDSKIPTI));
             }
         }
         catch (Exception ex) {
             ex.printStackTrace();
             System.out.println("ERROR: "+ex.getMessage());
         }
+
+        //Tækni og vísindi
+        try {
+            URL feedSource = new URL("https://www.mbl.is/feeds/togt/");
+            SyndFeedInput input = new SyndFeedInput();
+            SyndFeed feed = input.build(new XmlReader(feedSource));
+            for(SyndEntry entry: (List<SyndEntry>) feed.getEntries()){
+                String title = entry.getTitle();
+                String link = entry.getLink();
+                Long pubDate = entry.getPublishedDate().getTime();
+
+                newsStoryList.add(new NewsStory(title,"Mbl.is",pubDate,link,Categories.TOV));
+            }
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println("ERROR: "+ex.getMessage());
+        }
+
+        //Matur
+        try {
+            URL feedSource = new URL("https://www.mbl.is/feeds/matur/");
+            SyndFeedInput input = new SyndFeedInput();
+            SyndFeed feed = input.build(new XmlReader(feedSource));
+            for(SyndEntry entry: (List<SyndEntry>) feed.getEntries()){
+                String title = entry.getTitle();
+                String link = entry.getLink();
+                Long pubDate = entry.getPublishedDate().getTime();
+
+                newsStoryList.add(new NewsStory(title,"Mbl.is",pubDate,link,Categories.MATUR));
+            }
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println("ERROR: "+ex.getMessage());
+        }
+
+        //Ferðalög
+        try {
+            URL feedSource = new URL("https://www.mbl.is/feeds/ferdalog/");
+            SyndFeedInput input = new SyndFeedInput();
+            SyndFeed feed = input.build(new XmlReader(feedSource));
+            for(SyndEntry entry: (List<SyndEntry>) feed.getEntries()){
+                String title = entry.getTitle();
+                String link = entry.getLink();
+                Long pubDate = entry.getPublishedDate().getTime();
+
+                newsStoryList.add(new NewsStory(title,"Mbl.is",pubDate,link,Categories.FERDALOG));
+            }
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println("ERROR: "+ex.getMessage());
+        }
+
+        //Börn
+        try {
+            URL feedSource = new URL("https://www.mbl.is/feeds/born/");
+            SyndFeedInput input = new SyndFeedInput();
+            SyndFeed feed = input.build(new XmlReader(feedSource));
+            for(SyndEntry entry: (List<SyndEntry>) feed.getEntries()){
+                String title = entry.getTitle();
+                String link = entry.getLink();
+                Long pubDate = entry.getPublishedDate().getTime();
+
+                newsStoryList.add(new NewsStory(title,"Mbl.is",pubDate,link,Categories.BORN));
+            }
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println("ERROR: "+ex.getMessage());
+        }
+
+        //Smartland
+        try {
+            URL feedSource = new URL("https://www.mbl.is/feeds/smartland/");
+            SyndFeedInput input = new SyndFeedInput();
+            SyndFeed feed = input.build(new XmlReader(feedSource));
+            for(SyndEntry entry: (List<SyndEntry>) feed.getEntries()){
+                String title = entry.getTitle();
+                String link = entry.getLink();
+                Long pubDate = entry.getPublishedDate().getTime();
+
+                newsStoryList.add(new NewsStory(title,"Mbl.is",pubDate,link,Categories.SMARTLAND));
+            }
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println("ERROR: "+ex.getMessage());
+        }
+
+        //Bílar
+        try {
+            URL feedSource = new URL("https://www.mbl.is/feeds/bill/");
+            SyndFeedInput input = new SyndFeedInput();
+            SyndFeed feed = input.build(new XmlReader(feedSource));
+            for(SyndEntry entry: (List<SyndEntry>) feed.getEntries()){
+                String title = entry.getTitle();
+                String link = entry.getLink();
+                Long pubDate = entry.getPublishedDate().getTime();
+
+                newsStoryList.add(new NewsStory(title,"Mbl.is",pubDate,link,Categories.BILAR));
+            }
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println("ERROR: "+ex.getMessage());
+        }
+
+        //Fólk
+        try {
+            URL feedSource = new URL("https://www.mbl.is/feeds/folk/");
+            SyndFeedInput input = new SyndFeedInput();
+            SyndFeed feed = input.build(new XmlReader(feedSource));
+            for(SyndEntry entry: (List<SyndEntry>) feed.getEntries()){
+                String title = entry.getTitle();
+                String link = entry.getLink();
+                Long pubDate = entry.getPublishedDate().getTime();
+
+                newsStoryList.add(new NewsStory(title,"Mbl.is",pubDate,link,Categories.FOLK));
+            }
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            System.out.println("ERROR: "+ex.getMessage());
+        }
+
+
+
     }
 
     private void collectFromDV(){}

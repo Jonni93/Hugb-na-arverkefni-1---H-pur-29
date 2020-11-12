@@ -1,11 +1,6 @@
 package project.persistence.entities;
 
-import project.service.NewsStoryService;
-
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 public class NewsStory {
@@ -17,13 +12,13 @@ public class NewsStory {
     private String site;
     private Long timePosted; //currentMillis
     private String link;
-    private String categories;
+    private Categories categories;
 
     public NewsStory(){
 
     }
 
-    public NewsStory(String title, String site, Long timePosted, String link, String categories){
+    public NewsStory(String title, String site, Long timePosted, String link, Categories categories){
         this.title = title;
         this.site = site;
         this.timePosted = timePosted;
@@ -71,11 +66,11 @@ public class NewsStory {
         this.link = link;
     }
 
-    public String getCategories() {
+    public Categories getCategories() {
         return categories;
     }
 
-    public void setCategories(String categories) {
+    public void setCategories(Categories categories) {
         this.categories = categories;
     }
 }

@@ -13,10 +13,10 @@ public class User {
     private String password;
     private String email;
 
-    @ElementCollection(targetClass=String.class)
+    @ElementCollection(targetClass=Categories.class)
     @Column(name="categories", nullable=false)
     @CollectionTable(name="user_categories", joinColumns= {@JoinColumn(name="user_id")})
-    private List<String> categories = new ArrayList<>();
+    private List<Categories> categories = Arrays.asList(Categories.values());
 
     public User(){
 
@@ -25,6 +25,7 @@ public class User {
     public User(String uName, String password) {
         this.uName = uName;
         this.password = password;
+
     }
 
     public Long getId() {
@@ -59,11 +60,11 @@ public class User {
         this.email = email;
     }
 
-    public List<String> getCategories() {
+    public List<Categories> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<String> categories) {
+    public void setCategories(List<Categories> categories) {
         this.categories = categories;
     }
 }
