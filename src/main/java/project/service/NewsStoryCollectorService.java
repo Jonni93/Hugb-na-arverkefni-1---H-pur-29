@@ -237,8 +237,6 @@ public class NewsStoryCollectorService {
             System.out.println("ERROR: "+ex.getMessage());
         }
 
-
-
     }
 
     private void collectFromDV(){}

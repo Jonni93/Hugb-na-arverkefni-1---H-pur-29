@@ -9,8 +9,6 @@ import project.persistence.entities.NewsStory;
 import project.persistence.repositories.NewsStoryRepository;
 import project.service.NewsStoryCollectorService;
 import project.service.NewsStoryService;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -28,6 +26,9 @@ public class NewsStoryServiceImplementation implements NewsStoryService {
 
     @Override
     public NewsStory save(NewsStory newsStory) {
+        if(duplicate(newsStory)){
+            return null;
+        }
         return repository.save(newsStory);
     }
 
@@ -37,6 +38,17 @@ public class NewsStoryServiceImplementation implements NewsStoryService {
         for(NewsStory ns : newsStories){
             save(ns);
         }
+    }
+
+    //Skilar true ef þetta newsStory er þegar til í database
+    private boolean duplicate(NewsStory newsStory){
+        List<NewsStory> sameTitle = findByTitle(newsStory.getTitle());
+        for(NewsStory story : sameTitle){
+            if(story.getTimePosted().equals(newsStory.getTimePosted())){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -78,10 +90,12 @@ public class NewsStoryServiceImplementation implements NewsStoryService {
 
     //Uppfærir gagnagrunn á 10 min fresti
     @Scheduled(fixedRate = 600000)
-        private void upDateDB(){
+    private void upDateDB(){
         NewsStoryCollectorService collector = new NewsStoryCollectorService();
         List<NewsStory> stories = collector.findStories();
         save(stories);
         System.out.println("DB updated");
+        List<NewsStory> all = findAll();
+        System.out.println("There are " + all.size() + " newsStories in DB");
     }
 }
