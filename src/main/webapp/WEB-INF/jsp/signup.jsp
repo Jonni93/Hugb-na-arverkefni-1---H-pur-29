@@ -1,15 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="https://thymeleaf.org">
+<html lang="is">
 <head>
     <meta charset="UTF-8">
-    <title>Signup</title>
+    <link href="/css/bootstraps.css"
+          th:href="@{/css/bootstraps.css}"
+          rel="stylesheet" media="screen"/>
+    <link href="/css/logins.css"
+          th:href="@{/css/logins.css}"
+          rel="stylesheet" media="screen"/>
+    <title>Login</title>
 </head>
 <body>
-<h2>Signup for an account</h2>
-<form action="#" th:action="@{/signup}" th:object="${user}"  method="post">
-    <input type="text" name="uName" id="uName" th:field="*{uName}"/>
-    <input type="text" name="password" id="password" th:value="*{password}"/>
-    <input type="submit" value="Sign up"/>
+<form action="#" th:action="@{/signup/new} + ${userType}" th:object="${user}" method="post" class="form-signin">
+    <h1 class="font-weight-bold">Sign Up</h1>
+    <input type="uName" name="uName" id="uName" th:field="*{uName}"/>
+    <input type="password" name="password" id="password" th:value="*{password}"/>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" value="Confirm">Confirm</button>
 </form>
 </body>
 </html>

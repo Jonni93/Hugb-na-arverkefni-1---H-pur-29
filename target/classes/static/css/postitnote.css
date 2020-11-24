@@ -1,6 +1,82 @@
+body{
+    background-color: #f5f5f5;
+    margin:0;
+    margin-top:0px;
+}
+
+/* Add a black background color to the top navigation */
+.navbar {
+  background-color: #333;
+  overflow: hidden;
+}
+
+.topnav b{
+  text-align:center;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: #fb8c8c;
+  text-align: center;
+  padding: 20px 16px;
+  text-decoration: none;
+  font-size: 30px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #313154;
+  color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.nafn{
+  text-align:center;
+
+}
+.nafn b{
+  float: none;
+  position: absolute;
+  top: 3%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: floralwhite;
+  font-size:40px;
+}
+/* Style the links inside the navigation bar */
+.topnav1 a {
+  float: right;
+  color: #fb8c8c;
+  text-align: center;
+  padding: 20px 16px;
+  text-decoration: none;
+  font-size: 30px;
+}
+
+/* Change the color of links on hover */
+.topnav1 a:hover {
+  background-color: #313154;
+  color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav1 a.active {
+  background-color: #4CAF50;
+  color: white;
+}
 
 table.notes {
     border: 1px black solid;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 8px;
+
 }
 
 .notes td {
@@ -9,9 +85,9 @@ table.notes {
 }
 
 table.notes tr:nth-child(even) {
-    background-color: antiquewhite;
+    background-color: white;
 }
 
 table.notes tr:nth-child(odd) {
-    background-color: azure;
+    background-color: #d2d2d2;
 }

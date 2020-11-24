@@ -6,16 +6,23 @@
 <html xmlns:th="https://thymeleaf.org">
 
 <html lang="en">
-
     <head>
         <title>Index</title>
-
         <link rel="stylesheet" type="text/css" href="<c:url value="/css/postitnote.css"/>"/>
     </head>
     <body>
-    <a href="/login">log in </a>
-    <a href="/signup">Sign up </a>
-    <h1><a href="/">News Feed</a></h1>
+       <nav class="navbar">
+       <div class="nafn">
+         <b>Tidindi</b>
+        </div>
+        <div class="topnav">
+            <a href="/">News Feed</a>
+         </div>
+         <div class="topnav1">
+            <a href="/login">Log in </a>
+            <a href="/signup">Sign up </a>
+         </div>
+        </nav>
 
     <c:choose>
         <c:when test="${not empty categories}">
